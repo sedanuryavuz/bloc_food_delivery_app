@@ -1,5 +1,8 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../constants/app_colors.dart';
+import '../widgets/CartItemCard.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -69,102 +72,16 @@ class _CartScreenState extends State<CartScreen> {
                 itemCount: cartItems.length,
                 itemBuilder: (context, index) {
                   final item = cartItems[index];
-                  final subtotal = item["price"] * item["quantity"];
-
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(color: Colors.black12, blurRadius: 4),
-                      ],
-                    ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(8),
-                          child: Image.network(
-                            item["image"],
-                            width: 100,
-                            height: 100,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        const SizedBox(width: 16),
-
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                item["name"],
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18.0
-                                ),
-                              ),
-                              const SizedBox(height: 20),
-                              Row(
-                                children: [
-                                  Text(
-                                    "Fiyat: ",
-                                    style: const TextStyle(color: Colors.black87,
-                                    fontSize: 15),
-                                  ),
-                                  Text(
-                                    "₺${item["price"]}",
-                                    style: const TextStyle(color: Colors.black87,
-                                        fontWeight: FontWeight.bold,
-                                    fontSize: 16),
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              Text(
-                                "Adet: ${item["quantity"]}",
-                                style: const TextStyle(color: Colors.black87,
-                                fontSize: 15),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            IconButton(
-                              icon: const Icon(
-                                Icons.delete,
-                                color: AppColors.navbarItemColor,
-                                size: 40,
-                              ),
-                              onPressed: () {
-                                setState(() => cartItems.removeAt(index));
-                              },
-                            ),
-                            const SizedBox(height: 30),
-
-                            Text(
-                              "₺$subtotal",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.black,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  return CartItemCard(
+                    item: item,
+                    onDelete: () {
+                      setState(() => cartItems.removeAt(index));
+                    },
                   );
                 },
               ),
             ),
+
 
             Container(
               width: double.infinity,

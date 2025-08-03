@@ -1,24 +1,21 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
-import 'package:bloc_food_delivery_app/views/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:bloc_food_delivery_app/models/Products.dart';
+import '../../../data/entity/Products.dart';
+import '../../constants/app_colors.dart';
+import '../screens/product_details_screen.dart';
 
-class ProductCard extends StatefulWidget {
-  const ProductCard({super.key});
+class ProductCard extends StatelessWidget {
+  final Product product;
 
-  @override
-  State<ProductCard> createState() => _ProductCardState();
-}
+  const ProductCard({super.key, required this.product});
 
-class _ProductCardState extends State<ProductCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(),
+            builder: (context) => ProductDetailsScreen(product: product),
           ),
         );
       },
@@ -35,67 +32,66 @@ class _ProductCardState extends State<ProductCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      height: 120,
+                      height: 180,
                       decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
+
                         borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: const Center(
-                        child: Icon(Icons.fastfood, size: 60, color: AppColors.navbarItemColor),
+                        image: DecorationImage(
+                          image: NetworkImage("http://kasimadalan.pe.hu/yemekler/resimler/${product.imageName}"),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
 
                     const SizedBox(height: 8),
 
-                    Text(
-                      product1.title,
-                      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+                    Center(
+                      child: Text(
+                        product.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
-
                     const SizedBox(height: 4),
-
-                    Text(
-                      product1.subtitle,
-                      style: const TextStyle(color: Colors.grey),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                    Row(
+                      children: const [
+                        Icon(Icons.directions_bike_outlined, size: 16, color: Colors.green),
+                        SizedBox(width: 4),
+                        Text(
+                          "Ücretsiz Gönderim",
+                          style: TextStyle(color: Colors.grey),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-
                     const Spacer(),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${product1.price.toStringAsFixed(2)}',
+                          '${product.price.toStringAsFixed(0)} ₺',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add_circle, color: AppColors.navbarItemColor,),
+                          icon: const Icon(Icons.add_circle, color: AppColors.navbarItemColor),
                           onPressed: () {
-                            print("Sepete eklendi");
-
+                            print("${product.name} sepete eklendi");
                           },
-
                         ),
                       ],
                     ),
                   ],
                 ),
               ),
-
               Positioned(
                 top: 8,
                 right: 8,
-                child: Icon(
-                  product1.isFavorite ? Icons.favorite : Icons.favorite_border,
-                  color: AppColors.navbarItemColor,
-                ),
+                child: Icon(Icons.favorite_border, color: AppColors.navbarItemColor),
               ),
             ],
           ),

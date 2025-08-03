@@ -1,9 +1,11 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
-import 'package:bloc_food_delivery_app/views/screens/cart_screen.dart';
-import 'package:bloc_food_delivery_app/views/widgets/BottomNavBar.dart';
-import 'package:bloc_food_delivery_app/views/widgets/HomeAppBar.dart';
-import 'package:bloc_food_delivery_app/views/widgets/ProductListContent.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../constants/app_colors.dart';
+import '../widgets/BottomNavBar.dart';
+import '../widgets/HomeAppBar.dart';
+import '../widgets/ProductListContent.dart';
+import 'cart_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

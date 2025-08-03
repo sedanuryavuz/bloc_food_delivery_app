@@ -1,36 +1,33 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
+import 'package:bloc_food_delivery_app/data/entity/Products.dart';
 import 'package:flutter/material.dart';
+import '../../constants/app_colors.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({super.key});
+  final Product product;
+
+  const ProductDetailsScreen({super.key, required this.product});
 
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
-  int quantity = 2;
-
-  final double price = 45;
-  final String productName = "Kremalı Makarna";
+  int quantity = 1;
 
   void increaseQuantity() {
-    setState(() {
-      quantity++;
-    });
+    setState(() => quantity++);
   }
 
   void decreaseQuantity() {
     if (quantity > 1) {
-      setState(() {
-        quantity--;
-      });
+      setState(() => quantity--);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    double total = price * quantity;
+    final product = widget.product;
+    final total = product.price * quantity;
 
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +67,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ],
                 ),
               ),
+
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -80,22 +78,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Icon(Icons.star_border, color: Colors.orange),
                 ],
               ),
+
               const SizedBox(height: 20),
+
               SizedBox(
                 width: double.infinity,
                 height: 310,
                 child: Image.network(
-                  'http://kasimadalan.pe.hu/yemekler/resimler/ayran.png',
+                  'http://kasimadalan.pe.hu/yemekler/resimler/${product.imageName}',
                   fit: BoxFit.cover,
                 ),
               ),
+
               const SizedBox(height: 20),
+
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Text(
-                      "₺$price",
+                      "₺${product.price.toStringAsFixed(2)}",
                       style: const TextStyle(
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
@@ -104,13 +106,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      productName,
+                      product.name,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+
                     const SizedBox(height: 20),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -147,7 +151,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ],
                     ),
+
                     const SizedBox(height: 20),
+
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -191,7 +197,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                // TODO: Sepete ekleme işlevi
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.navbarItemColor,
                 padding: const EdgeInsets.symmetric(
@@ -202,8 +210,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(20),
                     topRight: Radius.circular(20),
-                    bottomLeft: Radius.circular(0),
-                    bottomRight: Radius.circular(0),
                   ),
                 ),
               ),

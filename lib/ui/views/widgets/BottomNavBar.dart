@@ -1,5 +1,7 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
+
 import 'package:flutter/material.dart';
+
+import '../../constants/app_colors.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int selectedIndex;

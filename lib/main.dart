@@ -1,6 +1,10 @@
-import 'package:bloc_food_delivery_app/constants/app_colors.dart';
-import 'package:bloc_food_delivery_app/views/screens/home_screen.dart';
+import 'package:bloc_food_delivery_app/data/repo/products_dao_repo.dart';
+import 'package:bloc_food_delivery_app/ui/cubit/product_list_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'ui/constants/app_colors.dart';
+import 'ui/views/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,14 +16,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Yemek Sipariş',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.navbarItemColor),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) =>ProductListCubit(ProductsDaoRepository())),
+      ],
+      child: MaterialApp(
+        title: 'Yemek Sipariş',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: AppColors.navbarItemColor),
+        ),
+      
+        home: HomeScreen(),
       ),
-
-      home: HomeScreen(),
     );
   }
 }
