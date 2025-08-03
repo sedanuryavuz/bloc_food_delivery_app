@@ -1,4 +1,5 @@
 import 'package:bloc_food_delivery_app/constants/app_colors.dart';
+import 'package:bloc_food_delivery_app/views/screens/cart_screen.dart';
 import 'package:bloc_food_delivery_app/views/widgets/BottomNavBar.dart';
 import 'package:bloc_food_delivery_app/views/widgets/HomeAppBar.dart';
 import 'package:bloc_food_delivery_app/views/widgets/ProductListContent.dart';
@@ -26,7 +27,10 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 80.0,
         width: 80.0,
         child: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(context,
+            MaterialPageRoute(builder: (context) => CartScreen()));
+          },
           backgroundColor: AppColors.navbarItemColor,
           shape: const CircleBorder(),
           child: const Icon(Icons.shopping_cart, size: 40, color: Colors.white),
