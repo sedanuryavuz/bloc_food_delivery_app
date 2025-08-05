@@ -1,4 +1,4 @@
-
+import 'package:bloc_food_delivery_app/ui/views/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
@@ -20,18 +20,23 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
+      appBar: _selectedIndex == 0
+          ? PreferredSize(
         preferredSize: const Size.fromHeight(180),
         child: const HomeAppBar(),
-      ),
-      body: const ProductListContent(),
+      )
+          : null,
+
+      body: _buildBody(),
       floatingActionButton: SizedBox(
         height: 80.0,
         width: 80.0,
         child: FloatingActionButton(
           onPressed: () {
-            Navigator.push(context,
-            MaterialPageRoute(builder: (context) => CartScreen()));
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const CartScreen()),
+            );
           },
           backgroundColor: AppColors.navbarItemColor,
           shape: const CircleBorder(),
@@ -39,7 +44,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-
       bottomNavigationBar: BottomNavBar(
         selectedIndex: _selectedIndex,
         onItemTapped: (index) {
@@ -47,5 +51,18 @@ class _HomeScreenState extends State<HomeScreen> {
         },
       ),
     );
+  }
+
+  Widget _buildBody() {
+    switch (_selectedIndex) {
+      case 0:
+        return const ProductListContent();
+      case 1:
+        return const Center(child: Text("Favoriler Sayfası (yakında)"));
+      case 2:
+        return const RegisterScreen();
+      default:
+        return const Center(child: Text("Sayfa bulunamadı"));
+    }
   }
 }
