@@ -1,7 +1,7 @@
-import 'package:bloc_food_delivery_app/data/sqlite/database_helper.dart';
+import 'dart:convert';
 import 'package:bloc_food_delivery_app/ui/views/widgets/ReusableTextField.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
+import 'package:http/http.dart' as http;
 import '../../constants/app_colors.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -17,34 +17,49 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String email = '';
   String password = '';
 
-  void _register() async {
+  Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
-      final exists = await DatabaseHelper.instance.checkUserExists(email);
+      const String apiUrl = 'http://10.0.2.2:3000/api/register';
 
-      if (exists) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Bu e-posta ile zaten kayıt olunmuş')),
+      try {
+        final response = await http.post(
+          Uri.parse(apiUrl),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            'username': fullName,
+            'email': email,
+            'password': password,
+          }),
         );
-        return;
+
+        if (response.statusCode == 201) {
+          final responseData = jsonDecode(response.body);
+          print('✅ Kayıt başarılı: ${responseData['user']}');
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Kayıt başarılı!')),
+          );
+        } else if (response.statusCode == 409) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Bu e-posta zaten kayıtlı.')),
+          );
+        } else {
+          print(' Hata: ${response.statusCode} - ${response.body}');
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Bir hata oluştu.')),
+          );
+        }
+
+      } catch (e) {
+        print(' İstek hatası: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Sunucuya bağlanılamadı.')),
+        );
       }
-
-      await DatabaseHelper.instance.insertUser({
-        'user_name': fullName,
-        'email': email,
-        'password': password,
-      });
-
-      print("Kayıt olundu: $fullName, $email, $password");
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Kayıt başarılı!')),
-      );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

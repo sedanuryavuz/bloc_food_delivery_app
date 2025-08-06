@@ -22,7 +22,9 @@ class ProductCard extends StatelessWidget {
       child: SizedBox(
         height: 250,
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
           elevation: 4,
           child: Stack(
             children: [
@@ -34,10 +36,11 @@ class ProductCard extends StatelessWidget {
                     Container(
                       height: 180,
                       decoration: BoxDecoration(
-
                         borderRadius: BorderRadius.circular(8),
                         image: DecorationImage(
-                          image: NetworkImage("http://kasimadalan.pe.hu/yemekler/resimler/${product.imageName}"),
+                          image: NetworkImage(
+                            "http://kasimadalan.pe.hu/yemekler/resimler/${product.imageName}",
+                          ),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -48,7 +51,10 @@ class ProductCard extends StatelessWidget {
                     Center(
                       child: Text(
                         product.name,
-                        style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -56,7 +62,11 @@ class ProductCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Row(
                       children: const [
-                        Icon(Icons.directions_bike_outlined, size: 16, color: Colors.green),
+                        Icon(
+                          Icons.directions_bike_outlined,
+                          size: 16,
+                          color: Colors.green,
+                        ),
                         SizedBox(width: 4),
                         Text(
                           "Ücretsiz Gönderim",
@@ -78,7 +88,10 @@ class ProductCard extends StatelessWidget {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.add_circle, color: AppColors.navbarItemColor),
+                          icon: const Icon(
+                            Icons.add_circle,
+                            color: AppColors.navbarItemColor,
+                          ),
                           onPressed: () {
                             print("${product.name} sepete eklendi");
                           },
@@ -91,7 +104,10 @@ class ProductCard extends StatelessWidget {
               Positioned(
                 top: 8,
                 right: 8,
-                child: Icon(Icons.favorite_border, color: AppColors.navbarItemColor),
+                child: Icon(
+                  Icons.favorite_border,
+                  color: AppColors.navbarItemColor,
+                ),
               ),
             ],
           ),

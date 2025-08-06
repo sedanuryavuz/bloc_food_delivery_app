@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../cubit/product_list_cubit.dart';
 import '../../cubit/product_list_state.dart';
 import 'ProductCard.dart';
@@ -47,7 +46,9 @@ class _ProductListContentState extends State<ProductListContent> {
                     return const Center(child: CircularProgressIndicator());
                   } else if (state is ProductListLoaded) {
                     if (state.foods.isEmpty) {
-                      return const Center(child: Text('Arama sonucu bulunamadı.'));
+                      return const Center(
+                        child: Text('Arama sonucu bulunamadı.'),
+                      );
                     }
                     return GridView.count(
                       crossAxisCount: 2,
@@ -72,4 +73,3 @@ class _ProductListContentState extends State<ProductListContent> {
     );
   }
 }
-
