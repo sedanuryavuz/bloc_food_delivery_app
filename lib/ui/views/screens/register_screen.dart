@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:bloc_food_delivery_app/ui/views/screens/login_screen.dart';
 import 'package:bloc_food_delivery_app/ui/views/widgets/ReusableTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -128,7 +129,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
               TextButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LoginScreen(),
+                    ),
+                  );
                 },
                 child: const Text("Zaten hesabın var mı? Giriş yap"),
               ),

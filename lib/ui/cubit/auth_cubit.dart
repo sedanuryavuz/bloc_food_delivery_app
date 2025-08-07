@@ -16,4 +16,13 @@ class AuthCubit extends Cubit<AuthState> {
       emit(AuthError("Kayıt başarısız: $e"));
     }
   }
+  Future<void> login(String email, String password) async {
+    emit(AuthLoading());
+    try {
+      await _repo.login(email, password);
+      emit(AuthSuccess("Giriş başarılı"));
+    } catch (e) {
+      emit(AuthError("Giriş başarısız: $e"));
+    }
+  }
 }

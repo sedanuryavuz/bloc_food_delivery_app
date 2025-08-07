@@ -11,12 +11,12 @@ const port = 3000;
 
 app.use(bodyParser.json());
 
-// MongoDB bağlantısı
+//MongoDB bağlantısı
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('MongoDB bağlantısı başarılı'))
     .catch((err) => console.error('MongoDB bağlantı hatası:', err));
 
-// Kullanıcı kaydı
+//Kullanıcı kaydı
 app.post('/api/register', async (req, res) => {
     const { username, email, password } = req.body;
 
@@ -28,7 +28,7 @@ app.post('/api/register', async (req, res) => {
         const existingUser = await User.findOne({ email });
 
         if (existingUser) {
-            return res.status(409).json({ message: 'Bu e-posta zaten kayıtlı.' }); 
+            return res.status(409).json({ message: 'Bu e-posta zaten kayıtlı.' });
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -55,7 +55,42 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
+//Kullanıcı girişi
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
 
+    if (!email || !password) {
+        return res.status(400).json({ message: 'E-posta ve şifre zorunludur.' });
+    }
+
+    try {
+        const user = await User.findOne({ email });
+
+        if (!user) {
+            return res.status(401).json({ message: 'Geçersiz e-posta veya şifre.' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) {
+            return res.status(401).json({ message: 'Geçersiz e-posta veya şifre.' });
+        }
+
+        return res.status(200).json({
+            message: 'Giriş başarılı.',
+            user: {
+                username: user.username,
+                email: user.email
+            }
+        });
+
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Giriş sırasında sunucu hatası oluştu.' });
+    }
+});
+
+//Kullanıcıları listeleme
 app.get('/api/users', async (req, res) => {
     try {
         const allUsers = await User.find({}, { password: 0 }); 
