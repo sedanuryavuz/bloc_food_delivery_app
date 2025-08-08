@@ -33,9 +33,12 @@ dependencies:
   flutter_bloc:
   dio:
   http:
-  sqflite:
   path_provider:
-
+  flutter_local_notifications:
+  shared_preferences:
+  timezone:
+  permission_handler:
+  workmanager:
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -58,8 +61,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-  assets:
-    - db/food_delivery.sqlite
+  #assets:
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

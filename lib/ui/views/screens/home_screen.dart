@@ -1,6 +1,5 @@
-import 'package:bloc_food_delivery_app/ui/views/screens/register_screen.dart';
+import 'package:bloc_food_delivery_app/ui/views/screens/login_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../constants/app_colors.dart';
 import '../widgets/BottomNavBar.dart';
 import '../widgets/HomeAppBar.dart';
@@ -60,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return const Center(child: Text("Favoriler Sayfası (yakında)"));
       case 2:
-        return const RegisterScreen();
+        return const LoginScreen();
       default:
         return const Center(child: Text("Sayfa bulunamadı"));
     }

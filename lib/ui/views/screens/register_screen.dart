@@ -37,22 +37,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
         if (response.statusCode == 201) {
           final responseData = jsonDecode(response.body);
-          print('✅ Kayıt başarılı: ${responseData['user']}');
+          print('Kayıt başarılı: ${responseData['user']}');
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Kayıt başarılı!')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Kayıt başarılı!')));
         } else if (response.statusCode == 409) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('Bu e-posta zaten kayıtlı.')),
           );
         } else {
           print(' Hata: ${response.statusCode} - ${response.body}');
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Bir hata oluştu.')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Bir hata oluştu.')));
         }
-
       } catch (e) {
         print(' İstek hatası: $e');
         ScaffoldMessenger.of(context).showSnackBar(
@@ -78,7 +77,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
           child: Column(
             children: [
               const SizedBox(height: 30),
-              const Icon(Icons.person_add_alt_1, size: 100, color: AppColors.navbarItemColor),
+              const Icon(
+                Icons.person_add_alt_1,
+                size: 100,
+                color: AppColors.navbarItemColor,
+              ),
               const SizedBox(height: 30),
 
               ReusableTextField(
@@ -92,8 +95,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ReusableTextField(
                 labelText: 'E-posta',
                 icon: Icons.email,
-                validator: (value) =>
-                value!.isEmpty || !value.contains('@') ? 'Geçerli e-posta girin' : null,
+                validator: (value) => value!.isEmpty || !value.contains('@')
+                    ? 'Geçerli e-posta girin'
+                    : null,
                 onSaved: (value) => email = value!,
               ),
               const SizedBox(height: 20),
@@ -102,7 +106,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 labelText: 'Şifre',
                 icon: Icons.lock,
                 obscureText: true,
-                validator: (value) => value!.length < 6 ? 'En az 6 karakter girin' : null,
+                validator: (value) =>
+                    value!.length < 6 ? 'En az 6 karakter girin' : null,
                 onSaved: (value) => password = value!,
               ),
               const SizedBox(height: 30),
@@ -131,9 +136,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginScreen(),
-                    ),
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
                   );
                 },
                 child: const Text("Zaten hesabın var mı? Giriş yap"),

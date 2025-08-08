@@ -1,7 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bloc_food_delivery_app/data/repo/products_dao_repo.dart';
 import 'package:bloc_food_delivery_app/ui/cubit/product_list_state.dart';
-
 import '../../data/entity/Products.dart';
 
 class ProductListCubit extends Cubit<ProductListState> {

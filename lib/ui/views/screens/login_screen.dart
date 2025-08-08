@@ -6,7 +6,6 @@ import 'package:bloc_food_delivery_app/ui/views/widgets/ReusableTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -16,14 +15,12 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
   String? _email;
   String? _password;
 
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-
       context.read<AuthCubit>().login(_email!, _password!);
     }
   }
@@ -36,40 +33,55 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text("Giriş Yap"),
         backgroundColor: AppColors.navbarItemColor,
         centerTitle: true,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
       ),
       body: BlocConsumer<AuthCubit, AuthState>(
         listener: (context, state) {
-          if (state is AuthLoading) {
-            //TODO yükleniyor göstergesi
-          } else if (state is AuthSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.message)),
-            );
+          if (state is AuthSuccess) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.message)));
           } else if (state is AuthError) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.error)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.error)));
           }
         },
         builder: (context, state) {
-          return Center(
+          return SafeArea(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24.0,
+                vertical: 32.0,
+              ),
               child: Form(
                 key: _formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 30),
-                    const Icon(Icons.login, size: 100, color: AppColors.navbarItemColor),
-                    const SizedBox(height: 30),
+                    const Icon(
+                      Icons.lock,
+                      size: 90,
+                      color: AppColors.navbarItemColor,
+                    ),
+                    const SizedBox(height: 12),
+                    const Text(
+                      "Tekrar Hoşgeldin",
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.navbarItemColor,
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      "Devam etmek için giriş yap",
+                      style: TextStyle(fontSize: 16, color: Colors.grey[700]),
+                    ),
+                    const SizedBox(height: 36),
 
                     ReusableTextField(
                       labelText: 'E-mail',
-                      icon: Icons.email,
+                      icon: Icons.email_outlined,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'E-mail gerekli';
@@ -82,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     ReusableTextField(
                       labelText: 'Şifre',
-                      icon: Icons.lock,
+                      icon: Icons.lock_outline,
                       obscureText: true,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
@@ -92,26 +104,51 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       onSaved: (value) => _password = value,
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 30),
 
                     SizedBox(
                       width: double.infinity,
-                      height: 48,
+                      height: 50,
                       child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.navbarItemColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
                         onPressed: state is AuthLoading ? null : _submitForm,
-                        child: const Text('Giriş Yap'),
+                        child: state is AuthLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text(
+                                "Giriş Yap",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
                       ),
                     ),
                     const SizedBox(height: 20),
 
-                    TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                        );
-                      },
-                      child: const Text("Hala bir hesabın yok mu? Kayıt Ol"),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text("Hala bir hesabın yok mu?"),
+                        TextButton(
+                          style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => const RegisterScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text("Kayıt Ol"),
+                        ),
+                      ],
                     ),
                   ],
                 ),

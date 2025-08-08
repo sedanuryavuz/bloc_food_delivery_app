@@ -1,5 +1,7 @@
 import 'package:bloc_food_delivery_app/data/entity/Products.dart';
+import 'package:bloc_food_delivery_app/ui/cubit/cart_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/app_colors.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -198,7 +200,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                // TODO: Sepete ekleme işlevi
+                context.read<CartCubit>().addToCart(
+                  widget.product,
+                  quantity: quantity,
+                );
+
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Ürün sepete eklendi")),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.navbarItemColor,

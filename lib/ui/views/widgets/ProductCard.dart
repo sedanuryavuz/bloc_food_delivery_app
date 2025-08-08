@@ -1,15 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/entity/Products.dart';
 import '../../constants/app_colors.dart';
+import '../../cubit/cart_cubit.dart';
 import '../screens/product_details_screen.dart';
 
-class ProductCard extends StatelessWidget {
+class ProductCard extends StatefulWidget {
   final Product product;
 
   const ProductCard({super.key, required this.product});
 
   @override
+  State<ProductCard> createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  int quantity = 1;
+
+  @override
   Widget build(BuildContext context) {
+    final product = widget.product;
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -45,9 +56,7 @@ class ProductCard extends StatelessWidget {
                         ),
                       ),
                     ),
-
                     const SizedBox(height: 8),
-
                     Center(
                       child: Text(
                         product.name,
@@ -68,11 +77,13 @@ class ProductCard extends StatelessWidget {
                           color: Colors.green,
                         ),
                         SizedBox(width: 4),
-                        Text(
-                          "Ücretsiz Gönderim",
-                          style: TextStyle(color: Colors.grey),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                        Expanded(
+                          child: Text(
+                            "Ücretsiz Gönderim",
+                            style: TextStyle(color: Colors.grey),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -93,7 +104,16 @@ class ProductCard extends StatelessWidget {
                             color: AppColors.navbarItemColor,
                           ),
                           onPressed: () {
-                            print("${product.name} sepete eklendi");
+                            context.read<CartCubit>().addToCart(
+                              product,
+                              quantity: quantity,
+                            );
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('${product.name} sepete eklendi'),
+                                duration: const Duration(seconds: 1),
+                              ),
+                            );
                           },
                         ),
                       ],
