@@ -6,8 +6,6 @@ Kullanıcılar giriş yapabilir, ürünleri görüntüleyebilir, sepetine ekleye
 👤 Kullanıcı İşlemleri
 Giriş ve kayıt sistemi (Backend API ile)
 
-# Form doğrulama
-
 # 📦 Ürün Yönetimi
 API’den ürün listesi çekme
 Ürün detay sayfası
@@ -34,5 +32,6 @@ Material Design
 
 # 📸 Ekran Görüntüleri
 <img width="3228" height="1920" alt="Screenshot_20250808_180240 - Kopya" src="https://github.com/user-attachments/assets/a1a9e0a6-2ac9-4dad-9c08-187107249a47" />
+
 
 <img width="3224" height="1914" alt="Screenshot_20250808_181629 - Kopya" src="https://github.com/user-attachments/assets/f0009e45-a755-428b-aa02-3c387ee98644" />
