@@ -1,7 +1,9 @@
+import 'package:bloc_food_delivery_app/ui/bloc/product_list/product_list_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/product_list/product_list_event.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/product_list/product_list_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../cubit/product_list_cubit.dart';
-import '../../cubit/product_list_state.dart';
+
 import 'ProductCard.dart';
 
 class ProductListContent extends StatefulWidget {
@@ -15,7 +17,7 @@ class _ProductListContentState extends State<ProductListContent> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductListCubit>().loadProducts();
+    context.read<ProductListBloc>().add(LoadProducts());
   }
 
   @override
@@ -35,12 +37,12 @@ class _ProductListContentState extends State<ProductListContent> {
                 suffixIcon: const Icon(Icons.search),
               ),
               onChanged: (value) {
-                context.read<ProductListCubit>().filterProducts(value);
+                context.read<ProductListBloc>().add(FilterProducts(value));
               },
             ),
             const SizedBox(height: 16),
             Expanded(
-              child: BlocBuilder<ProductListCubit, ProductListState>(
+              child: BlocBuilder<ProductListBloc, ProductListState>(
                 builder: (context, state) {
                   if (state is ProductListLoading) {
                     return const Center(child: CircularProgressIndicator());

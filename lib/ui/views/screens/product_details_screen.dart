@@ -1,5 +1,6 @@
 import 'package:bloc_food_delivery_app/data/entity/Products.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/cart_cubit.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/cart/cart_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/cart/cart_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../constants/app_colors.dart';
@@ -200,9 +201,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             ElevatedButton(
               onPressed: () {
-                context.read<CartCubit>().addToCart(
-                  widget.product,
-                  quantity: quantity,
+                context.read<CartBloc>().add(
+                  AddToCart(widget.product, quantity: quantity),
                 );
 
                 ScaffoldMessenger.of(context).showSnackBar(

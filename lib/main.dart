@@ -1,8 +1,9 @@
 import 'package:bloc_food_delivery_app/core/notifications/notification_service.dart';
 import 'package:bloc_food_delivery_app/data/repo/products_dao_repo.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/auth_cubit.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/cart_cubit.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/product_list_cubit.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/auth/auth_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/cart/cart_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/product_list/product_list_bloc.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:timezone/data/latest.dart' as tz;
@@ -32,10 +33,10 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ProductListCubit(ProductsDaoRepository()),
+          create: (context) => ProductListBloc(ProductsDaoRepository()),
         ),
-        BlocProvider(create: (_) => AuthCubit()),
-        BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(create: (_) => AuthBloc()),
+        BlocProvider(create: (_) => CartBloc()),
       ],
       child: MaterialApp(
         title: 'Yemek Sipariş',

@@ -1,8 +1,9 @@
+import 'package:bloc_food_delivery_app/ui/bloc/cart/cart_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/cart/cart_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../data/entity/Products.dart';
 import '../../constants/app_colors.dart';
-import '../../cubit/cart_cubit.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductCard extends StatefulWidget {
@@ -104,9 +105,8 @@ class _ProductCardState extends State<ProductCard> {
                             color: AppColors.navbarItemColor,
                           ),
                           onPressed: () {
-                            context.read<CartCubit>().addToCart(
-                              product,
-                              quantity: quantity,
+                            context.read<CartBloc>().add(
+                              AddToCart(product, quantity: quantity),
                             );
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(

@@ -1,6 +1,7 @@
+import 'package:bloc_food_delivery_app/ui/bloc/auth/auth_bloc.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/auth/auth_event.dart';
+import 'package:bloc_food_delivery_app/ui/bloc/auth/auth_state.dart';
 import 'package:bloc_food_delivery_app/ui/constants/app_colors.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/auth_cubit.dart';
-import 'package:bloc_food_delivery_app/ui/cubit/auth_state.dart';
 import 'package:bloc_food_delivery_app/ui/views/screens/register_screen.dart';
 import 'package:bloc_food_delivery_app/ui/views/widgets/ReusableTextField.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void _submitForm() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
-      context.read<AuthCubit>().login(_email!, _password!);
+      context.read<AuthBloc>().add(LoginEvent(_email!, _password!));
     }
   }
 
@@ -34,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: AppColors.navbarItemColor,
         centerTitle: true,
       ),
-      body: BlocConsumer<AuthCubit, AuthState>(
+      body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthSuccess) {
             ScaffoldMessenger.of(
@@ -46,6 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ).showSnackBar(SnackBar(content: Text(state.error)));
           }
         },
+
         builder: (context, state) {
           return SafeArea(
             child: SingleChildScrollView(
